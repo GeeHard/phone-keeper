@@ -26,7 +26,7 @@ export default function Home() {
         </h1>
         <p className="text-xl text-gray-500 max-w-2xl mx-auto mb-10">
           Telefonwächter erkennt automatisch KI-Vertriebsanrufe und blockiert sie –
-          bevor Ihre Eltern überhaupt abheben müssen. Kein Einrichten, kein Lernen, kein Stress.
+          bevor Sie überhaupt abheben müssen. Kein Einrichten, kein Lernen, kein Stress.
         </p>
         <a
           href="#warteliste"
@@ -44,7 +44,7 @@ export default function Home() {
             Kennen Sie das?
           </h2>
           <p className="text-gray-500 text-center mb-12 max-w-xl mx-auto">
-            Ältere Menschen werden täglich von KI-Sprachagenten angerufen – und wissen oft nicht, dass am anderen Ende gar kein Mensch spricht.
+            Immer mehr Menschen werden täglich von KI-Sprachagenten angerufen – und wissen oft nicht, dass am anderen Ende gar kein Mensch spricht.
           </p>
           <div className="grid md:grid-cols-3 gap-6">
             {[
@@ -56,7 +56,7 @@ export default function Home() {
               {
                 icon: "😰",
                 title: "Angst vor dem Klingeln",
-                text: "Manche meiden ihr Telefon ganz – und verpassen Anrufe von Familie oder Arzt.",
+                text: "Viele meiden ihr Telefon ganz – und verpassen Anrufe von Familie oder Arzt.",
               },
               {
                 icon: "📝",
@@ -78,14 +78,14 @@ export default function Home() {
       <section className="py-20 max-w-4xl mx-auto px-6">
         <h2 className="text-3xl font-bold text-gray-900 text-center mb-4">So funktioniert es</h2>
         <p className="text-gray-500 text-center mb-14 max-w-xl mx-auto">
-          Telefonwächter arbeitet unsichtbar im Hintergrund – Ihre Eltern merken nichts davon.
+          Telefonwächter arbeitet unsichtbar im Hintergrund – Sie merken nichts davon.
         </p>
         <div className="space-y-8">
           {[
             {
               step: "1",
               title: "Anruf kommt an",
-              text: "Bevor das Telefon Ihrer Eltern klingelt, nimmt Telefonwächter den Anruf automatisch entgegen.",
+              text: "Bevor Ihr Telefon klingelt, nimmt Telefonwächter den Anruf automatisch entgegen.",
             },
             {
               step: "2",
@@ -114,22 +114,33 @@ export default function Home() {
       {/* For who */}
       <section className="bg-blue-50 py-20">
         <div className="max-w-4xl mx-auto px-6 text-center">
-          <h2 className="text-3xl font-bold text-gray-900 mb-12">Für wen ist Telefonwächter?</h2>
-          <div className="grid md:grid-cols-2 gap-6 text-left">
-            <div className="bg-white rounded-2xl p-8 border border-blue-100">
-              <div className="text-4xl mb-4">👴👵</div>
-              <h3 className="font-bold text-gray-900 text-xl mb-3">Für Ihre Eltern</h3>
-              <p className="text-gray-500">
+          <h2 className="text-3xl font-bold text-gray-900 mb-4">Für jeden, der in Ruhe telefonieren möchte</h2>
+          <p className="text-gray-500 mb-12 max-w-xl mx-auto">
+            Ob jung oder alt – unerwünschte Werbeanrufe nerven alle. Telefonwächter schützt Sie zuverlässig und ohne Aufwand.
+          </p>
+          <div className="grid md:grid-cols-3 gap-6 text-left">
+            <div className="bg-white rounded-2xl p-6 border border-blue-100">
+              <div className="text-4xl mb-4">🧓</div>
+              <h3 className="font-bold text-gray-900 text-lg mb-2">Ältere Menschen</h3>
+              <p className="text-gray-500 text-sm">
                 Kein Einrichten, kein Lernen. Der Schutz ist einfach aktiv –
-                und das Telefon klingelt wieder nur, wenn es wichtig ist.
+                das Telefon klingelt wieder nur, wenn es wirklich jemand ist.
               </p>
             </div>
-            <div className="bg-white rounded-2xl p-8 border border-blue-100">
-              <div className="text-4xl mb-4">👨‍👩‍👧</div>
-              <h3 className="font-bold text-gray-900 text-xl mb-3">Für Sie als Kind</h3>
-              <p className="text-gray-500">
-                Sie verwalten alles bequem über das Dashboard – und erhalten eine Benachrichtigung,
-                wenn etwas abgefangen wurde. Volle Kontrolle, null Aufwand.
+            <div className="bg-white rounded-2xl p-6 border border-blue-100">
+              <div className="text-4xl mb-4">🏠</div>
+              <h3 className="font-bold text-gray-900 text-lg mb-2">Menschen zuhause</h3>
+              <p className="text-gray-500 text-sm">
+                Wer viel Zeit zuhause verbringt, wird besonders häufig angerufen.
+                Telefonwächter gibt Ihnen Ihren Alltag zurück.
+              </p>
+            </div>
+            <div className="bg-white rounded-2xl p-6 border border-blue-100">
+              <div className="text-4xl mb-4">📱</div>
+              <h3 className="font-bold text-gray-900 text-lg mb-2">Alle Telefonnutzer</h3>
+              <p className="text-gray-500 text-sm">
+                Festnetz oder Smartphone – Telefonwächter schützt Sie
+                auf beiden Geräten, ohne dass Sie etwas tun müssen.
               </p>
             </div>
           </div>
@@ -139,12 +150,31 @@ export default function Home() {
       {/* Waitlist */}
       <section id="warteliste" className="py-24 max-w-2xl mx-auto px-6 text-center">
         <h2 className="text-3xl font-bold text-gray-900 mb-4">
-          Schützen Sie Ihre Eltern – kostenlos testen
+          Jetzt kostenlos schützen lassen
         </h2>
         <p className="text-gray-500 mb-8">
           Melden Sie sich für die Warteliste an. Wir benachrichtigen Sie, sobald Telefonwächter verfügbar ist.
         </p>
-        <WaitlistForm />
+        <form
+          className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto"
+          action="/api/waitlist"
+          method="POST"
+        >
+          <input
+            type="email"
+            name="email"
+            required
+            placeholder="ihre@email.de"
+            className="flex-1 px-4 py-3 rounded-xl border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <button
+            type="submit"
+            className="bg-blue-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-blue-700 transition-colors whitespace-nowrap"
+          >
+            Anmelden →
+          </button>
+        </form>
+        <p className="text-sm text-gray-400 mt-3">Kostenlos · Kein Spam · Jederzeit abmeldbar</p>
       </section>
 
       {/* Footer */}
@@ -152,29 +182,5 @@ export default function Home() {
         <p>© 2025 Telefonwächter · <a href="#" className="hover:text-gray-600">Datenschutz</a> · <a href="#" className="hover:text-gray-600">Impressum</a></p>
       </footer>
     </main>
-  );
-}
-
-function WaitlistForm() {
-  return (
-    <form
-      className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto"
-      action="/api/waitlist"
-      method="POST"
-    >
-      <input
-        type="email"
-        name="email"
-        required
-        placeholder="ihre@email.de"
-        className="flex-1 px-4 py-3 rounded-xl border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
-      />
-      <button
-        type="submit"
-        className="bg-blue-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-blue-700 transition-colors whitespace-nowrap"
-      >
-        Anmelden →
-      </button>
-    </form>
   );
 }

@@ -3,8 +3,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Telefonwächter – Schutz vor KI-Werbeanrufen",
-  description:
-    "Intelligenter Schutz für ältere Menschen. Telefonwächter erkennt KI-Vertriebsanrufe automatisch und blockiert sie – bevor das Telefon klingelt.",
+  description: "Intelligenter Schutz vor KI-Vertriebsanrufen.",
 };
 
 export default function RootLayout({

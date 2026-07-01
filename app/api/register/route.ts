@@ -7,15 +7,19 @@ const supabase = createClient(
 );
 
 export async function POST(req: NextRequest) {
-  const { phone, email } = await req.json();
+  const { phone, email, whitelist, blacklist } = await req.json();
+
   if (!phone || !email) {
     return NextResponse.json({ error: "Fehlende Felder" }, { status: 400 });
   }
+
   const { error } = await supabase
     .from("registrations")
-    .insert([{ phone, email }]);
+    .insert([{ phone, email, whitelist: whitelist || [], blacklist: blacklist || [] }]);
+
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
+
   return NextResponse.json({ success: true });
 }

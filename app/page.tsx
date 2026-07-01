@@ -2,13 +2,65 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
+const WHITELIST_OPTIONS = [
+  { id: "familie", label: "Familie & Freunde", icon: "👨‍👩‍👧" },
+  { id: "arzt", label: "Arzt & Apotheke", icon: "🏥" },
+  { id: "aemter", label: "Ämter & Behörden", icon: "🏛️" },
+  { id: "vereine", label: "Vereine & Organisationen", icon: "⛪" },
+  { id: "lieferung", label: "Lieferdienste & Pakete", icon: "📦" },
+];
+
+const BLACKLIST_OPTIONS = [
+  { id: "umfragen", label: "Meinungsumfragen", icon: "📊" },
+  { id: "versicherungen", label: "Versicherungen", icon: "🛡️" },
+  { id: "solar", label: "Solar & Energie", icon: "☀️" },
+  { id: "kredite", label: "Kredite & Finanzen", icon: "💰" },
+  { id: "immobilien", label: "Immobilien", icon: "🏠" },
+];
+
+function SelectionCard({
+  icon, label, selected, onClick,
+}: {
+  icon: string; label: string; selected: boolean; onClick: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={`flex items-center gap-3 w-full px-4 py-3 rounded-xl border-2 transition-all text-left ${
+        selected
+          ? "border-blue-500 bg-blue-50 text-blue-800"
+          : "border-gray-200 bg-white text-gray-700 hover:border-gray-300"
+      }`}
+    >
+      <span className="text-xl">{icon}</span>
+      <span className="text-sm font-medium">{label}</span>
+      {selected && <span className="ml-auto text-blue-500">✓</span>}
+    </button>
+  );
+}
+
 export default function Home() {
   const [showForm, setShowForm] = useState(false);
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
+  const [whitelist, setWhitelist] = useState<string[]>([]);
+  const [blacklist, setBlacklist] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const router = useRouter();
+
+  function toggleWhitelist(id: string) {
+    setWhitelist((prev) =>
+      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
+    );
+  }
+
+  function toggleBlacklist(id: string) {
+    setBlacklist((prev) =>
+      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
+    );
+  }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -18,7 +70,7 @@ export default function Home() {
       const res = await fetch("/api/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ phone, email }),
+        body: JSON.stringify({ phone, email, whitelist, blacklist }),
       });
       if (!res.ok) throw new Error("Fehler beim Speichern");
       router.push("/bestaetigung");
@@ -67,12 +119,50 @@ export default function Home() {
             Jetzt starten →
           </button>
         ) : (
-          <div className="bg-blue-50 border border-blue-100 rounded-2xl p-8 max-w-md mx-auto text-left">
-            <h2 className="text-xl font-bold text-gray-900 mb-2">Fast geschafft!</h2>
+          <div className="bg-blue-50 border border-blue-100 rounded-2xl p-8 max-w-lg mx-auto text-left">
+            <h2 className="text-xl font-bold text-gray-900 mb-1">Fast geschafft!</h2>
             <p className="text-gray-500 text-sm mb-6">
-              Gib deine Daten ein – der Agent kümmert sich um den Rest.
+              Legen Sie fest, wer durchkommen soll — und wer nicht.
             </p>
-            <form onSubmit={handleSubmit} className="space-y-4">
+
+            <form onSubmit={handleSubmit} className="space-y-6">
+              {/* Whitelist */}
+              <div>
+                <p className="text-sm font-semibold text-green-700 mb-2">
+                  ✅ Diese Anrufer sollen immer durchkommen:
+                </p>
+                <div className="space-y-2">
+                  {WHITELIST_OPTIONS.map((opt) => (
+                    <SelectionCard
+                      key={opt.id}
+                      icon={opt.icon}
+                      label={opt.label}
+                      selected={whitelist.includes(opt.id)}
+                      onClick={() => toggleWhitelist(opt.id)}
+                    />
+                  ))}
+                </div>
+              </div>
+
+              {/* Blacklist */}
+              <div>
+                <p className="text-sm font-semibold text-red-700 mb-2">
+                  🚫 Diese Anrufe sollen blockiert werden:
+                </p>
+                <div className="space-y-2">
+                  {BLACKLIST_OPTIONS.map((opt) => (
+                    <SelectionCard
+                      key={opt.id}
+                      icon={opt.icon}
+                      label={opt.label}
+                      selected={blacklist.includes(opt.id)}
+                      onClick={() => toggleBlacklist(opt.id)}
+                    />
+                  ))}
+                </div>
+              </div>
+
+              {/* Telefon & Email */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Deine Telefonnummer
@@ -105,7 +195,9 @@ export default function Home() {
                   Hierhin sendet der Agent Nachrichten zu deinen Anrufen.
                 </p>
               </div>
+
               {error && <p className="text-red-500 text-sm">{error}</p>}
+
               <button
                 type="submit"
                 disabled={loading}
